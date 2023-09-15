@@ -44,10 +44,10 @@ def update(arr, green):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-    y = 50
+    y = (800 - (ceil(width / 10) * len(arr) + width * len(arr))) // 2
     for i in range(len(arr)):
         block_surf = pygame.Surface((width,arr[i] * 10))
-        block_rect = block_surf.get_rect(bottomleft = (y, 720))
+        block_rect = block_surf.get_rect(bottomleft = (y, 790))
         y += ceil(width / 10) + width
         if green:
           if i in green:
