@@ -14,7 +14,7 @@ def randomize(num):
       shuffle(x)
     global width
     width = 700 / len(x)
-    width = width - ceil(width / 10 / 10 + width / 10)
+    width = width - ceil(width / 10)
     print(len(x), width)
     complete = False
 
@@ -44,12 +44,11 @@ def update(arr, green):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-    y = (800 - (width * len(arr) + ceil(width / 10 + width))) / 2
-    print(y)
+    y = 50
     for i in range(len(arr)):
         block_surf = pygame.Surface((width,arr[i] * 10))
-        block_rect = block_surf.get_rect(midbottom = (y, 720))
-        y += ceil(width / 10 + width)
+        block_rect = block_surf.get_rect(bottomleft = (y, 720))
+        y += ceil(width / 10) + width
         if green:
           if i in green:
               block_surf.fill("Green")
