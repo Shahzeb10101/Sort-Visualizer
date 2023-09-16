@@ -8,7 +8,7 @@ complete = False
 def randomize(num):
     global x
     if num == 0:
-      x = list(np.random.randint(low = 5,high=70,size=randint(5, 100)))
+      x = list(np.random.randint(low = 5,high=70,size=randint(5, 5)))
     else:
       x = list(range(1,71))
       shuffle(x)
