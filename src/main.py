@@ -1,6 +1,6 @@
 import pygame
 from Classes import display
-from helper import draw_sort_state, bubble_sort
+from helper import draw_sort_state, bubble_sort, selection_sort
 
 pygame.init()
 
@@ -12,9 +12,10 @@ def main():
     sorting = False
     done = False
     generator = None
+    FPS = 60
     
     while running:
-        clock.tick(60)
+        clock.tick(FPS)
         # sorting Check (Techwithtim inspired)
         if sorting:
             try:
@@ -37,13 +38,19 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_l and not sorting:
                     window.generate_list()
+                    done = False
                 if event.key == pygame.K_j and not sorting:
                     window.generate_list(default_list=True)
+                    done = False
                 if event.key == pygame.K_k and not sorting:
                     generator = bubble_sort(window, window.lst, clock)
                     sorting = True
                     done = False
-                
+                if event.key == pygame.K_h:
+                    generator = selection_sort(window, window.lst, clock)
+                    sorting = True
+                    done = False
+                    
         pygame.display.update()
           
 if __name__ == "__main__":

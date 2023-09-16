@@ -10,7 +10,6 @@ def bubble_sort(window, lst, clock):
     for i in range(length):
         swapped = False
         for j in range(length - 1 - i):
-            draw_sort_state(window, green=[j, j+1])
             if lst[j] > lst[j + 1]:
                 swapped = True
                 swap(lst, j, j + 1)
@@ -22,9 +21,26 @@ def bubble_sort(window, lst, clock):
     draw_sort_state(window)
     draw_sort_state(window, done=True, animate=True, clock=clock)
     
+
+def selection_sort(window, lst, clock):
+    length = len(lst)
+    for i in range(length):
+        minidx = i
+        for j in range(i+1, length):
+            draw_sort_state(window, green=[j], red=[minidx])
+            yield True
+            if lst[j] < lst[minidx]:
+                minidx = j
+                draw_sort_state(window, green=[j], red=[minidx])
+                yield True
+        swap(lst, i, minidx)
+    
+    draw_sort_state(window)
+    draw_sort_state(window, done=True, animate=True, clock=clock)
+    
     
 def draw_sort_state(window, green=[], red=[], done=False, animate=False, clock=None):
-    if not done: window.screen.fill("PURPLE")
+    if not done: window.screen.fill("black")
     x_pos = window.startx
     lst = window.lst
     
