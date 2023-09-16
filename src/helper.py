@@ -37,7 +37,7 @@ def draw_sort_state(window, green=[], red=[], done=False, animate=False, clock=N
         if red:
             if i in red: block_surf.fill("red")
         if done:
-            block_surf.fill("Black")
+            block_surf.fill("green")
             if animate: pygame.display.update(), clock.tick(40)
         
         x_pos += ceil(window.block_width / 10) + window.block_width
