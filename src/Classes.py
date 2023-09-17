@@ -14,7 +14,7 @@ class display():
         self._MIN_VAL = 1
         self._MAX_VAL = 70
         self._min_list_size = 5
-        self._max_list_size = 50
+        self._max_list_size = 100
         self._PADDING = 100
         
         self.generate_list()
