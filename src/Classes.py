@@ -23,6 +23,7 @@ class display():
         self.generator = None
         self.clock = pygame.time.Clock()
         self.FPS = 60
+        self.rainbow = False
         
         
         self.generate_list()
@@ -62,7 +63,11 @@ class display():
                         self.sorting = True
                         self.done = False
                     if event.key == pygame.K_m:
+                        self.sorting = True
                         self.lst = merge_sort(self, self.lst, self.clock, 0, len(self.lst), sorted(self.lst))
+                        self.sorting = False
                         self.done = True
                         draw_sort_state(self)
                         draw_sort_state(self, done=True, animate=True, clock=self.clock)
+                if event.key == pygame.K_n:
+                    self.rainbow = not self.rainbow

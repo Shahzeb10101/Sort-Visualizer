@@ -1,5 +1,5 @@
 import pygame
-from math import ceil
+from math import ceil,sin
 
 
 def swap(lst, i, j):
@@ -146,7 +146,7 @@ def draw_sort_state(
     clock=None,
     update=False,
     fps=0,
-):
+                ):
     if not done:
         window.screen.fill("black")
     x_pos = window.startx
@@ -164,6 +164,8 @@ def draw_sort_state(
         if blue:
             if i in blue:
                 block_surf.fill("#08d2f7")
+        if window.rainbow:
+            block_surf.fill(num_to_rgb(lst[i], max(lst)))
         if done:
             block_surf.fill("green")
             if animate:
@@ -174,3 +176,10 @@ def draw_sort_state(
     if update:
         clock.tick(fps)
         pygame.display.update()
+        
+def num_to_rgb(val, max_val=3):
+    i = (val * 255 / max_val);
+    r = round(sin(0.024 * i + 0) * 127 + 128);
+    g = round(sin(0.024 * i + 2) * 127 + 128);
+    b = round(sin(0.024 * i + 4) * 127 + 128);
+    return (r,g,b)
