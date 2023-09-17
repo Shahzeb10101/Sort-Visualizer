@@ -1,6 +1,6 @@
 import pygame
 from Classes import display
-from helper import draw_sort_state, bubble_sort,selection_sort
+from helper import draw_sort_state, bubble_sort, selection_sort, merge_sort
 
 pygame.init()
 
@@ -16,7 +16,7 @@ def main():
     
     while running:
         clock.tick(FPS)
-        # sorting Check (Techwithtim inspired)
+        #sorting Check (Techwithtim inspired)
         if sorting:
             try:
                 next(generator)
@@ -48,6 +48,13 @@ def main():
                         generator = selection_sort(window, window.lst, clock)
                         sorting = True
                         done = False
+                    if event.key == pygame.K_m:
+                        sorting = True
+                        window.lst = merge_sort(window, window.lst, clock, 0, len(window.lst), sorted(window.lst))
+                        done = True
+                        draw_sort_state(window)
+                        draw_sort_state(window, done=True, animate=True, clock=clock)
+                        sorting = False
                     
         pygame.display.update()
           
