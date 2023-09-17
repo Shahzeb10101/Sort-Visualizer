@@ -6,7 +6,7 @@ pygame.init()
 
 
 def main():
-    window = display(1400, 800)
+    window = display(1200, 800)
 
     while window.running:
         window.clock.tick(window.FPS)

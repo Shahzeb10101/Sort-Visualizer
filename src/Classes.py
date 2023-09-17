@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 from random import shuffle, randint
 from math import ceil
-from helper import draw_sort_state, bubble_sort, selection_sort, merge_sort
+from helper import draw_sort_state, bubble_sort, selection_sort, merge_sort, insertion_sort
 
 class display():
     
@@ -13,10 +13,11 @@ class display():
         pygame.display.set_caption("Visualizer")
 
         self._MIN_VAL = 1
-        self._MAX_VAL = 70
+        self._MAX_VAL = 100
         self._min_list_size = 5
-        self._max_list_size = 100
-        self._PADDING = 100
+        self._max_list_size = 300
+        self._SIDE_PADDING = 100
+        self._TOP_PADDING = 200
         self.running = True
         self.sorting = False
         self.done = False
@@ -35,8 +36,9 @@ class display():
             shuffle(self.lst)
         else:
             self.lst = list(np.random.randint(low = self._MIN_VAL,high = self._MAX_VAL,size=randint(self._min_list_size, self._max_list_size)))
-        self.block_width = (self._WIDTH - self._PADDING) / len(self.lst)
+        self.block_width = (self._WIDTH - self._SIDE_PADDING) / len(self.lst)
         self.block_width -= ceil(self.block_width / 10)
+        self.block_height_scale = (self._HEIGHT - self._TOP_PADDING) / (max(self.lst) - min(self.lst))
         
         self.startx = (self._WIDTH - (ceil(self.block_width / 10) * len(self.lst) + self.block_width * len(self.lst))) // 2
         
@@ -56,12 +58,10 @@ class display():
                         self.done = False
                     if event.key == pygame.K_k:
                         self.generator = bubble_sort(self, self.lst, self.clock)
-                        self.sorting = True
-                        self.done = False
+                        self.algo_start()
                     if event.key == pygame.K_h:
                         self.generator = selection_sort(self, self.lst, self.clock)
-                        self.sorting = True
-                        self.done = False
+                        self.algo_start()
                     if event.key == pygame.K_m:
                         self.sorting = True
                         self.lst = merge_sort(self, self.lst, self.clock, 0, len(self.lst), sorted(self.lst))
@@ -69,5 +69,12 @@ class display():
                         self.done = True
                         draw_sort_state(self)
                         draw_sort_state(self, done=True, animate=True, clock=self.clock)
+                    if event.key == pygame.K_b:
+                        self.generator = insertion_sort(self, self.lst, self.clock)
+                        self.algo_start()
                 if event.key == pygame.K_n:
                     self.rainbow = not self.rainbow
+                    
+    def algo_start(self):
+        self.sorting = True
+        self.done = False

@@ -50,12 +50,13 @@ def merge_sort(window, lst, clock, relationstart, relationend, sortedlst):
 def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relationend):
     left_cursor = right_cursor = i = 0
     fps = window.FPS / 2
+    relmid = (relationend + relationstart) // 2
     while left_cursor < len(left_lst) and right_cursor < len(right_lst):
         window.event_loop()
         draw_sort_state(
             window,
             green=[left_cursor + relationstart],
-            red=[right_cursor + relationstart],
+            red=[right_cursor + relmid],
             blue=[i + relationstart],
             update=True,
             clock=clock,
@@ -68,7 +69,7 @@ def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relation
             draw_sort_state(
                 window,
                 green=[left_cursor + relationstart],
-                red=[right_cursor + relationstart],
+                red=[right_cursor + relmid],
                 blue=[i + relationstart],
                 update=True,
                 clock=clock,
@@ -81,7 +82,7 @@ def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relation
             draw_sort_state(
                 window,
                 green=[left_cursor + relationstart],
-                red=[right_cursor + relationstart],
+                red=[right_cursor + relmid],
                 blue=[i + relationstart],
                 update=True,
                 clock=clock,
@@ -95,7 +96,7 @@ def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relation
         draw_sort_state(
             window,
             green=[left_cursor + relationstart],
-            red=[right_cursor + relationstart],
+            red=[right_cursor + relmid],
             blue=[i + relationstart],
             update=True,
             clock=clock,
@@ -109,7 +110,7 @@ def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relation
         draw_sort_state(
             window,
             green=[left_cursor + relationstart],
-            red=[right_cursor + relationstart],
+            red=[right_cursor + relmid],
             blue=[i + relationstart],
             update=True,
             clock=clock,
@@ -134,6 +135,21 @@ def selection_sort(window, lst, clock):
 
     draw_sort_state(window)
     draw_sort_state(window, done=True, animate=True, clock=clock)
+    
+def insertion_sort(window, lst, clock):
+    for i in range(1,len(lst)):
+        temp = lst[i]
+        j = i - 1
+        while j >= 0 and lst[j] > temp:
+            draw_sort_state(window, green=[i], red=[j])
+            yield True
+            lst[j + 1] = lst[j]
+            j -= 1
+        lst[j + 1] = temp
+        yield True
+    
+    draw_sort_state(window)
+    draw_sort_state(window, done=True, animate=True, clock=clock)
 
 
 def draw_sort_state(
@@ -152,9 +168,9 @@ def draw_sort_state(
     x_pos = window.startx
     lst = window.lst
     for i in range(len(lst)):
-        block_surf = pygame.Surface((window.block_width, lst[i] * 10))
-        block_rect = block_surf.get_rect(bottomleft=(x_pos, 790))
-        block_surf.fill("White")
+        block_surf = pygame.Surface((window.block_width, lst[i] * window.block_height_scale))
+        block_rect = block_surf.get_rect(bottomleft=(x_pos, 800))
+        block_surf.fill("white")
         if green:
             if i in green:
                 block_surf.fill("green")
@@ -166,7 +182,7 @@ def draw_sort_state(
                 block_surf.fill("#08d2f7")
         if window.rainbow:
             block_surf.fill(num_to_rgb(lst[i], max(lst)))
-        if done:
+        if done and not window.rainbow:
             block_surf.fill("green")
             if animate:
                 pygame.display.update(), clock.tick(40)
@@ -178,8 +194,8 @@ def draw_sort_state(
         pygame.display.update()
         
 def num_to_rgb(val, max_val=3):
-    i = (val * 255 / max_val);
-    r = round(sin(0.024 * i + 0) * 127 + 128);
-    g = round(sin(0.024 * i + 2) * 127 + 128);
-    b = round(sin(0.024 * i + 4) * 127 + 128);
+    i = (val * 255 / max_val)
+    r = round(sin(0.024 * i + 0) * 127 + 128)
+    g = round(sin(0.024 * i + 2) * 127 + 128)
+    b = round(sin(0.024 * i + 4) * 127 + 128)
     return (r,g,b)
