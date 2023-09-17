@@ -25,10 +25,7 @@ def main():
                 draw_sort_state(window, done=True, animate=True, clock=clock)
                 done = True
         else:
-            if done:
-                draw_sort_state(window, done=True)
-            else:
-                draw_sort_state(window)
+            draw_sort_state(window, done=done)
         
         # Event Loop
         for event in pygame.event.get():
@@ -36,20 +33,21 @@ def main():
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_l and not sorting:
-                    window.generate_list()
-                    done = False
-                if event.key == pygame.K_j and not sorting:
-                    window.generate_list(default_list=True)
-                    done = False
-                if event.key == pygame.K_k and not sorting:
-                    generator = bubble_sort(window, window.lst, clock)
-                    sorting = True
-                    done = False
-                if event.key == pygame.K_h:
-                    generator = selection_sort(window, window.lst, clock)
-                    sorting = True
-                    done = False
+                if not sorting:
+                    if event.key == pygame.K_l:
+                        window.generate_list()
+                        done = False
+                    if event.key == pygame.K_j:
+                        window.generate_list(default_list=True)
+                        done = False
+                    if event.key == pygame.K_k:
+                        generator = bubble_sort(window, window.lst, clock)
+                        sorting = True
+                        done = False
+                    if event.key == pygame.K_h:
+                        generator = selection_sort(window, window.lst, clock)
+                        sorting = True
+                        done = False
                     
         pygame.display.update()
           
