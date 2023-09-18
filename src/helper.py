@@ -13,6 +13,7 @@ def bubble_sort(window, lst, clock):
         for j in range(length - 1 - i):
             if lst[j] > lst[j + 1]:
                 swapped = True
+
                 swap(lst, j, j + 1)
                 draw_sort_state(window, green=[j], red=[j + 1])
                 yield True
@@ -188,6 +189,7 @@ def draw_sort_state(
                 pygame.display.update(), clock.tick(40)
 
         x_pos += ceil(window.block_width / 10) + window.block_width
+        window.buttons.draw(window.screen)
         window.screen.blit(block_surf, block_rect)
     if update:
         clock.tick(fps)
