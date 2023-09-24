@@ -1,9 +1,9 @@
 import pygame
 import numpy as np
 from random import shuffle, randint
-from math import ceil
+from math import ceil, floor
 
-from helper import draw_sort_state, bubble_sort, selection_sort, merge_sort, insertion_sort
+from helper import draw_sort_state, bubble_sort, selection_sort, merge_sort, insertion_sort, quick_sort
 
 class display(): 
     
@@ -24,6 +24,7 @@ class display():
         self.buttons.add(Button("B - Bubble Sort", self.button_x_pos, 50, self, function=self.start_bubble_sort))
         self.buttons.add(Button("M - Merge Sort", self.button_x_pos, 50, self, function=self.start_merge_sort))
         self.buttons.add(Button("S - Selection Sort", self.button_x_pos, 50, self, function=self.start_selection_sort))
+        self.buttons.add(Button("Q - Quick Sort", self.button_x_pos, 50, self, function=self.start_quick_sort))
         self.buttons.add(Button("L - RandList", self.button_x_pos, 50, self, function=self.generate_list))
         self.buttons.add(Button("J - SetList", self.button_x_pos, 50, self, function=self.generate_list, arg='default_list=True'))
     
@@ -52,7 +53,7 @@ class display():
             self.lst = list(np.random.randint(low = self._MIN_VAL,high = self._MAX_VAL,size=randint(self._min_list_size, self._max_list_size)))
         self.block_width = (self._WIDTH - self._SIDE_PADDING) / len(self.lst)
         self.block_width -= ceil(self.block_width / 10)
-        self.block_height_scale = (self._HEIGHT - self._TOP_PADDING) / (max(self.lst) - min(self.lst))
+        self.block_height_scale = floor((self._HEIGHT - self._TOP_PADDING) / (max(self.lst) - min(self.lst)))
         
         self.startx = (self._WIDTH - (ceil(self.block_width / 10) * len(self.lst) + self.block_width * len(self.lst))) // 2
         
@@ -78,6 +79,8 @@ class display():
                         self.start_merge_sort()
                     if event.key == pygame.K_i:
                         self.start_insertion_sort()
+                    if event.key == pygame.K_q:
+                        self.start_quick_sort()
                 if event.key == pygame.K_n:
                     self.rainbow = not self.rainbow
             for button in self.buttons:
@@ -114,6 +117,14 @@ class display():
     def start_selection_sort(self):
         self.generator = selection_sort(self, self.lst, self.clock)
         self.algo_start()
+        
+    def start_quick_sort(self):
+        self.sorting = True
+        quick_sort(self, self.lst, self.clock, 0, len(self.lst) - 1)
+        self.sorting = False
+        self.done = True
+        draw_sort_state(self)
+        draw_sort_state(self, done=True, animate=True, clock=self.clock)
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, top_x, top_y, window, function=None, arg=''):

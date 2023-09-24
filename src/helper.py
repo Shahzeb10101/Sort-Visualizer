@@ -53,7 +53,6 @@ def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relation
     fps = window.FPS / 2
     relmid = (relationend + relationstart) // 2
     while left_cursor < len(left_lst) and right_cursor < len(right_lst):
-        window.event_loop()
         draw_sort_state(
             window,
             green=[left_cursor + relationstart],
@@ -119,7 +118,7 @@ def merge(left_lst, right_lst, final_lst, window, clock, relationstart, relation
         )
 
     return final_lst
-
+    
 
 def selection_sort(window, lst, clock):
     length = len(lst)
@@ -152,6 +151,26 @@ def insertion_sort(window, lst, clock):
     draw_sort_state(window)
     draw_sort_state(window, done=True, animate=True, clock=clock)
 
+def quick_sort(window, lst, clock, low, high):
+    if low < high:
+        pivot = partition(window, lst, clock, low, high)
+        
+        quick_sort(window, lst, clock, low, pivot - 1)
+        quick_sort(window, lst, clock, pivot + 1, high)
+        
+def partition(window, lst, clock, low, high):
+    pivot = lst[high]
+    i = low 
+    for j in range(low, high):
+        draw_sort_state(window, clock=clock, green=[i], red=[j], blue=[high], update=True,)
+        if lst[j] <= pivot:
+            swap(lst, i ,j)
+            i += 1
+
+    draw_sort_state(window, clock=clock, green=[i], red=[j], blue=[high], update=True,)
+    swap(lst, i ,high)
+
+    return i
 
 def draw_sort_state(
     window,
@@ -162,8 +181,8 @@ def draw_sort_state(
     animate=False,
     clock=None,
     update=False,
-    fps=0,
-                ):
+    fps=60,
+    ):
     if not done:
         window.screen.fill("black")
     x_pos = window.startx
@@ -194,6 +213,7 @@ def draw_sort_state(
     if update:
         clock.tick(fps)
         pygame.display.update()
+        window.event_loop()
         
 def num_to_rgb(val, max_val=3):
     i = (val * 255 / max_val)

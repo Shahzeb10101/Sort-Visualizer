@@ -20,7 +20,8 @@ def main():
                 window.done = True
         else:
             draw_sort_state(window, done=window.done)
-
+        
+        
         # Event Loop
         window.event_loop()
 

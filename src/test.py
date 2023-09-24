@@ -1,16 +1,34 @@
 from helper import selection_sort, swap
+from random import shuffle
 
-x = [923, 2, 32, 4, 1, 9 , 8 , 23, 3, 1, 4, 67, 23, 6, 73, 53]
+x = [1, 2, 3, 4, 5]
+shuffle(x)
 
-def insertion_sort(lst):
-    for i in range(1,len(lst)):
-        temp = lst[i]
-        j = i - 1
-        while j >= 0 and lst[j] > temp:
-            lst[j + 1] = lst[j]
-            j -= 1
-        lst[j + 1] = temp
+def quick_sort(lst, low, high):
+    if low < high:
+        pivot = partition(lst, low, high)
+        
+        quick_sort(lst, low, pivot - 1)
+        quick_sort(lst, pivot + 1, high)
+        
+def partition(lst, low, high):
+    pivot = lst[high]
+    
+    i = low 
+    for j in range(low, high):
+        if lst[j] <= pivot:
+            lst[i], lst[j] =  lst[j], lst[i]
+            i += 1
+
+    lst[i], lst[high] = lst[high] ,lst[i]
+
+    return i
+        
+        
+    
+
+    
             
 print(x)
-insertion_sort(x)
+quick_sort(x, 0, len(x) - 1)
 print(x)
