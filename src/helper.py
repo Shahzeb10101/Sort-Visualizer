@@ -10,7 +10,6 @@ def draw_sort_state(
     animate=False,
     update=False,
     ):
-    
     if not done:
         window.screen.fill("black")
     x_pos = window.startx

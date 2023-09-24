@@ -156,5 +156,11 @@ class Button(pygame.sprite.Sprite):
                 if self.rect.collidepoint(event.pos):
                     if self.arg: self.function(self.arg)
                     else: self.function()
+                    
+class Label(pygame.sprite.Sprite):
+    def __init__(self, text, top_x, top_y, window):
+        super().__init__()
+        self.image = window.font.render(text, True, "White")
+        self.rect = self.image.get_rect(topleft = (top_x, top_y))
 
         
