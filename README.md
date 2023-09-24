@@ -12,5 +12,5 @@ Slider code: https://www.youtube.com/watch?v=n_ijgqYmXS0 <br>
 Rgb code: https://stackoverflow.com/questions/57400584/how-to-map-a-range-of-numbers-to-rgb-in-python
 <br>
 Inspiration from:
-    - Tech with Tim
-    - Clement Mihailescu
+- Tech with Tim
+- Clement Mihailescu
