@@ -17,7 +17,57 @@ def bubble_sort(window, lst):
             break
 
     draw_sort_state(window, done=True, animate=True)
+
+def selection_sort(window, lst):
+    length = len(lst)
+    for i in range(length):
+        minidx = i
+        for j in range(i + 1, length):
+            draw_sort_state(window, green=[j], red=[minidx])
+            yield True
+            if lst[j] < lst[minidx]:
+                minidx = j
+                draw_sort_state(window, green=[j], red=[minidx])
+                yield True
+        swap(lst, i, minidx)
+
+    draw_sort_state(window, done=True, animate=True)
     
+def insertion_sort(window, lst):
+    for i in range(1,len(lst)):
+        temp = lst[i]
+        j = i - 1
+        while j >= 0 and lst[j] > temp:
+            draw_sort_state(window, green=[i], red=[j])
+            yield True
+            lst[j + 1] = lst[j]
+            j -= 1
+        lst[j + 1] = temp
+        yield True
+    
+    draw_sort_state(window, done=True, animate=True)
+
+def quick_sort(window, lst, low, high):
+    if low < high:
+        pivot = partition(window, lst, low, high)
+        
+        quick_sort(window, lst, low, pivot - 1)
+        quick_sort(window, lst, pivot + 1, high)
+        
+def partition(window, lst, low, high):
+    pivot = lst[high]
+    i = low 
+    for j in range(low, high):
+        draw_sort_state(window, green=[i], red=[j], blue=[high], update=True,)
+        if lst[j] <= pivot:
+            swap(lst, i ,j)
+            i += 1
+
+    draw_sort_state(window, green=[i], red=[j], blue=[high], update=True,)
+    swap(lst, i ,high)
+
+    return i
+
 def merge_sort(window, lst, relationstart, relationend, sortedlst):
     length = len(lst)
     if length <= 1:
@@ -100,53 +150,3 @@ def merge(left_lst, right_lst, final_lst, window, relationstart, relationend):
         )
 
     return final_lst
-
-def selection_sort(window, lst):
-    length = len(lst)
-    for i in range(length):
-        minidx = i
-        for j in range(i + 1, length):
-            draw_sort_state(window, green=[j], red=[minidx])
-            yield True
-            if lst[j] < lst[minidx]:
-                minidx = j
-                draw_sort_state(window, green=[j], red=[minidx])
-                yield True
-        swap(lst, i, minidx)
-
-    draw_sort_state(window, done=True, animate=True)
-    
-def insertion_sort(window, lst):
-    for i in range(1,len(lst)):
-        temp = lst[i]
-        j = i - 1
-        while j >= 0 and lst[j] > temp:
-            draw_sort_state(window, green=[i], red=[j])
-            yield True
-            lst[j + 1] = lst[j]
-            j -= 1
-        lst[j + 1] = temp
-        yield True
-    
-    draw_sort_state(window, done=True, animate=True)
-
-def quick_sort(window, lst, low, high):
-    if low < high:
-        pivot = partition(window, lst, low, high)
-        
-        quick_sort(window, lst, low, pivot - 1)
-        quick_sort(window, lst, pivot + 1, high)
-        
-def partition(window, lst, low, high):
-    pivot = lst[high]
-    i = low 
-    for j in range(low, high):
-        draw_sort_state(window, green=[i], red=[j], blue=[high], update=True,)
-        if lst[j] <= pivot:
-            swap(lst, i ,j)
-            i += 1
-
-    draw_sort_state(window, green=[i], red=[j], blue=[high], update=True,)
-    swap(lst, i ,high)
-
-    return i

@@ -26,8 +26,8 @@ class display():
         self.buttons.add(Button("M - Merge Sort", self.button_x_pos, 50, self, function=self.start_merge_sort))
         self.buttons.add(Button("S - Selection Sort", self.button_x_pos, 50, self, function=self.start_selection_sort))
         self.buttons.add(Button("Q - Quick Sort", self.button_x_pos, 50, self, function=self.start_quick_sort))
-        self.buttons.add(Button("L - RandList", self.button_x_pos, 50, self, function=self.generate_list))
-        self.buttons.add(Button("J - SetList", self.button_x_pos, 50, self, function=self.generate_list, arg='default_list=True'))
+        self.buttons.add(Button("L - RandList", self.button_x_pos, 50, self, function=self.rand_list))
+        self.buttons.add(Button("J - SetList", self.button_x_pos, 50, self, function=self.set_list))
         self.lst_slider = Slider((self._WIDTH // 2 - 300, 100), (150, 20), 0.5, 10, 300)
         self.fps_slider = Slider((self._WIDTH // 2 + 300 , 100), (150, 20), 1, 1, 60)
         self.FPS = self.fps_slider.get_value()
@@ -64,7 +64,15 @@ class display():
         self.block_height_scale = floor((self._HEIGHT - self._TOP_PADDING) / (max(self.lst) - min(self.lst)))
         
         self.startx = (self._WIDTH - (ceil(self.block_width / 10) * len(self.lst) + self.block_width * len(self.lst))) // 2
-        
+    
+    def rand_list(self):
+        self.generate_list()
+        self.done = False
+    
+    def set_list(self):
+        self.generate_list(default_list=True)
+        self.done = False
+    
     # event loop
     def event_loop(self):
         events = pygame.event.get()
@@ -75,11 +83,9 @@ class display():
             if event.type == pygame.KEYDOWN:
                 if not self.sorting:
                     if event.key == pygame.K_l:
-                        self.generate_list()
-                        self.done = False
+                        self.rand_list()
                     if event.key == pygame.K_j:
-                        self.generate_list(default_list=True)
-                        self.done = False
+                        self.set_list()
                     if event.key == pygame.K_b:
                         self.start_bubble_sort()
                     if event.key == pygame.K_s:
@@ -104,7 +110,6 @@ class display():
         if self.fps_slider.container_rect.collidepoint(mouse_pos) and mouse[0]:
             self.fps_slider.move_slider(mouse_pos)
             self.FPS = self.fps_slider.get_value()
-            print(self.fps_slider.get_value())
                 
                     
     def algo_start(self):
@@ -157,10 +162,3 @@ class Button(pygame.sprite.Sprite):
                     if self.arg: self.function(self.arg)
                     else: self.function()
                     
-class Label(pygame.sprite.Sprite):
-    def __init__(self, text, top_x, top_y, window):
-        super().__init__()
-        self.image = window.font.render(text, True, "White")
-        self.rect = self.image.get_rect(topleft = (top_x, top_y))
-
-        
