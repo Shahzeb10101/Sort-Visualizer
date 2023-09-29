@@ -25,7 +25,7 @@ class display():
         self.buttons.add(Button("B - Bubble Sort", self.button_x_pos, 50, self, function=self.start_bubble_sort))
         self.buttons.add(Button("M - Merge Sort", self.button_x_pos, 50, self, function=self.start_merge_sort))
         self.buttons.add(Button("S - Selection Sort", self.button_x_pos, 50, self, function=self.start_selection_sort))
-        self.buttons.add(Button("Q - Quick Sort", self.button_x_pos, 50, self, function=self.start_quick_sort))
+        self.buttons.add(Button("W - Quick Sort", self.button_x_pos, 50, self, function=self.start_quick_sort))
         self.buttons.add(Button("L - RandList", self.button_x_pos, 50, self, function=self.rand_list))
         self.buttons.add(Button("J - SetList", self.button_x_pos, 50, self, function=self.set_list))
         self.lst_slider = Slider((self._WIDTH // 2 - 300, 100), (150, 20), 0.5, 10, 300)
@@ -105,6 +105,8 @@ class display():
                 button.pressed(events, self)
             if self.lst_slider.container_rect.collidepoint(mouse_pos) and mouse[0]:
                 self.lst_slider.move_slider(mouse_pos)
+                if self._slider_list_size != self.lst_slider.get_value():
+                    self.done = False
                 self._slider_list_size = self.lst_slider.get_value()
                 self.generate_list(slider_list=True)
         if self.fps_slider.container_rect.collidepoint(mouse_pos) and mouse[0]:

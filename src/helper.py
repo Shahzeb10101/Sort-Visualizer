@@ -34,6 +34,7 @@ def draw_sort_state(
             block_surf.fill("green")
             if animate:
                 pygame.display.update()
+                window.clock.tick(window.FPS / 2)
 
         x_pos += ceil(window.block_width / 10) + window.block_width
         window.buttons.draw(window.screen)
