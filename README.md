@@ -1,5 +1,5 @@
 # Sorting Visualizer
-### Video Demo:  <URL HERE>
+### Video Demo:  [<URL HERE>](https://youtu.be/xBLq89zQMe0)
 
 ### Introduction:
 This is a sorting Visualizer I made for my Cs50 Final project.
